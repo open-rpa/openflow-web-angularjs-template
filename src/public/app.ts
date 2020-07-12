@@ -8,10 +8,6 @@ import { userdata, api, timesince, translate, textarea, fileread } from "./Commo
  */
 module openflow {
     "use strict";
-    // .config(function (ChartJsProvider) {
-    //     ChartJsProvider.setOptions({ responsive: true });
-    //     ChartJsProvider.setOptions('Line', { responsive: true });
-    // })
     var webApp: any = angular.module("webApp", ['ngRoute', 'chart.js', 'ngLocalize', 'ngLocalize.Config'])
         .controller("MenuCtrl", MenuCtrl)
         .directive("timesince", timesince.factory())
@@ -20,18 +16,6 @@ module openflow {
         .directive("fileread", fileread.factory())
         .service("userdata", userdata)
         .service("WebSocketClientService", WebSocketClientService)
-        // .directive('autoComplete', function ($timeout) {
-        //     return function (scope, iElement, iAttrs) {
-        //         (iElement as any).autocomplete({
-        //             source: scope[iAttrs.uiItems],
-        //             select: function () {
-        //                 $timeout(function () {
-        //                     iElement.trigger('input');
-        //                 }, 0);
-        //             }
-        //         })
-        //     };
-        // })
         .service("api", api);
     webApp.config([
         <any>'$routeProvider',

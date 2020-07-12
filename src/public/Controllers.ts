@@ -221,12 +221,16 @@ export class EntityCtrl extends entityCtrl<Base> {
                 return;
             }
         }
-        if (this.model._id) {
-            await NoderedUtil.UpdateOne(this.collection, null, this.model, 1, false, null);
-            // await this.api.Update(this.collection, this.model);
-        } else {
-            await NoderedUtil.InsertOne(this.collection, this.model, 1, false, null);
-            // await this.api.Insert(this.collection, this.model);
+        try {
+            if (this.model._id) {
+                await NoderedUtil.UpdateOne(this.collection, null, this.model, 1, false, null);
+            } else {
+                await NoderedUtil.InsertOne(this.collection, this.model, 1, false, null);
+            }
+        } catch (error) {
+            this.errormessage = error;
+            if (!this.$scope.$$phase) { this.$scope.$apply(); }
+            return;
         }
         if (this.collection == "files") {
             this.$location.path("/Files");
@@ -511,8 +515,12 @@ export class EntitiesCtrl extends entitiesCtrl<Base> {
     }
     async DeleteOne(model: any): Promise<any> {
         this.loading = true;
-        await NoderedUtil.DeleteOne(this.collection, model._id, null);
-        this.models = this.models.filter(function (m: any): boolean { return m._id !== model._id; });
+        try {
+            await NoderedUtil.DeleteOne(this.collection, model._id, null);
+            this.models = this.models.filter(function (m: any): boolean { return m._id !== model._id; });
+        } catch (error) {
+            this.errormessage = error;
+        }
         this.loading = false;
         if (!this.$scope.$$phase) { this.$scope.$apply(); }
     }
