@@ -14,6 +14,7 @@
             ],
             "outputCapture": "std",
             "program": "${workspaceRoot}/src/server/index.ts",
+            "preLaunchTask": "tsc-watch",
             "request": "launch",
             "runtimeArgs": [
                 "--nolazy"
