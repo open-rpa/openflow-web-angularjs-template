@@ -116,7 +116,8 @@ export class WebSocketClientService {
         info(msg) { console.log(msg); },
         verbose(msg) { console.debug(msg); },
         error(msg) { console.error(msg); },
-        debug(msg) { console.debug(msg); }
+        debug(msg) { console.debug(msg); },
+        silly(msg) { console.debug(msg); }
     }
     public user: TokenUser = null;
     public jwt: string = null;
