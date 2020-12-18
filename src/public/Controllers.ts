@@ -1,6 +1,6 @@
 import { WebSocketClientService } from "./WebSocketClientService";
 import { entitiesCtrl, api, userdata, entityCtrl } from "./CommonControllers";
-import { NoderedUtil, Ace, Base, TokenUser } from "openflow-api";
+import { NoderedUtil, Ace, Base, TokenUser } from "@openiap/openflow-api";
 function treatAsUTC(date): number {
     var result = new Date(date);
     result.setMinutes(result.getMinutes() - result.getTimezoneOffset());

@@ -1,6 +1,6 @@
 import { WebSocketClientService } from "./WebSocketClientService";
 import angular = require("angular");
-import { NoderedUtil } from "openflow-api";
+import { NoderedUtil } from "@openiap/openflow-api";
 export class api {
     static $inject = ["$rootScope", "$location", "WebSocketClientService"];
     constructor(public $rootScope: ng.IRootScopeService, public $location, public WebSocketClientService: WebSocketClientService) {

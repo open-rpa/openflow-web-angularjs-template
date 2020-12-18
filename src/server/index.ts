@@ -3,7 +3,6 @@ import * as http from "http";
 import { Logger } from "./Logger";
 import { WebServer } from "./WebServer";
 import { Config } from "./Config";
-import { WebSocketClient, NoderedUtil } from "openflow-api";
 
 
 const logger: winston.Logger = Logger.configure();
