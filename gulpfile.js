@@ -16,7 +16,7 @@ var copyfiles = ["./src/public/**/*.html", "./src/public/**/*.css", "./src/publi
     "./src/public/**/*.ico", "./src/public/**/*.eot", "./src/public/**/*.svg", "./src/public/**/*.ttf", "./src/public/**/*.woff"];
 
 // var copyopenflowfiles = ["./node_modules/openflow-api/lib/browser/**/*.js", "./node_modules/common.js/client/common.js"];
-var copyopenflowfiles = ["./node_modules/openflow-api/lib/openflow-api.js"];
+var copyopenflowfiles = ["./node_modules/@openiap/openflow-api/lib/openflow-api.js"];
 
 var destination = './dist/public';
 gulp.task('copyfiles', function () {

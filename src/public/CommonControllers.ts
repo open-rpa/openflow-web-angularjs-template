@@ -117,22 +117,6 @@ export class textarea implements ng.IDirective {
         return directive;
     }
 }
-async function getString(locale: any, lib: string, key: string): Promise<any> {
-    return new Promise((resolve) => {
-        try {
-            if (locale === null || locale === undefined) { return resolve(); }
-            locale.ready(lib).then(function () {
-                var value = locale.getString(lib + "." + key);
-                if (value !== null && value !== undefined && value !== "") {
-                    resolve(value);
-                } else {
-                    resolve(key);
-                }
-            });
-        } catch (error) {
-        }
-    });
-}
 var global_translate_notfound: string[] = [];
 export class translate implements ng.IDirective {
     require = '?ngModel';
@@ -310,7 +294,7 @@ export class entitiesCtrl<T> {
                     query = { $and: [query, { $or: finalor.concat() }] };
                 }
             }
-            this.models = await NoderedUtil.Query(this.collection, query, this.baseprojection, this.orderby, 100, 0, null, this.basequeryas);
+            this.models = await NoderedUtil.Query(this.collection, query, this.baseprojection, this.orderby, 100, 0, null, this.basequeryas, null, 1);
             this.loading = false;
             if (this.autorefresh) {
                 if (this.models.length >= 100) {
@@ -355,7 +339,7 @@ export class entitiesCtrl<T> {
     async DeleteOne(model: any): Promise<any> {
         this.loading = true;
         try {
-            await NoderedUtil.DeleteOne(this.collection, model._id, null);
+            await NoderedUtil.DeleteOne(this.collection, model._id, null, 1);
             this.models = this.models.filter(function (m: any): boolean { return m._id !== model._id; });
         } catch (error) {
             this.errormessage = error;
@@ -426,7 +410,7 @@ export class entityCtrl<T> {
                 this.preloadData();
             }
 
-            var result = await NoderedUtil.Query(this.collection, this.basequery, this.baseprojection, null, 1, 0, null);
+            var result = await NoderedUtil.Query(this.collection, this.basequery, this.baseprojection, null, 1, 0, null, null, null, 1);
             if (result.length > 0) {
                 if (this.model == null) {
                     this.model = result[0];

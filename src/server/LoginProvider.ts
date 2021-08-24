@@ -168,7 +168,7 @@ export class LoginProvider {
         options.callbackUrl = url.parse(baseurl).protocol + "//" + url.parse(baseurl).host + "/" + key + "/";
         options.logoutUrl = url.parse(singin_url).protocol + "//" + url.parse(singin_url).host + "/logout/";
         options.verify = (LoginProvider.samlverify).bind(this);
-        strategy = new SAMLStrategy.Strategy(options, options.verify);
+        strategy = new SAMLStrategy.Strategy(options as any, options.verify);
         passport.use(key, strategy);
         strategy.name = key;
         this._logger.info(options.callbackUrl);

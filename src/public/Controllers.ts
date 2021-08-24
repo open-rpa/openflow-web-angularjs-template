@@ -16,7 +16,8 @@ export class chartset {
     };
     // baseColors: string[] = ['#F7464A', '#97BBCD', '#FDB45C', '#46BFBD', '#949FB1', '#4D5360'];
     // baseColors: string[] = ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
-    baseColors: [
+
+    colors: string[] = [
         '#97BBCD', // blue
         '#DCDCDC', // light grey
         '#F7464A', // red
@@ -25,7 +26,6 @@ export class chartset {
         '#949FB1', // grey
         '#4D5360'  // dark grey
     ];
-    colors: string[] = this.baseColors;
     type: string = 'bar';
     heading: string = "";
     labels: string[] = [];
@@ -223,9 +223,9 @@ export class EntityCtrl extends entityCtrl<Base> {
         }
         try {
             if (this.model._id) {
-                await NoderedUtil.UpdateOne(this.collection, null, this.model, 1, false, null);
+                await NoderedUtil.UpdateOne(this.collection, null, this.model, 1, false, null, 1);
             } else {
-                await NoderedUtil.InsertOne(this.collection, this.model, 1, false, null);
+                await NoderedUtil.InsertOne(this.collection, this.model, 1, false, null, 1);
             }
         } catch (error) {
             this.errormessage = error;
@@ -428,7 +428,7 @@ export class EntityCtrl extends entityCtrl<Base> {
                     { _id: { $nin: ids } }
                 ]
             }
-            , null, { _type: -1, name: 1 }, 5, 0, null);
+            , null, { _type: -1, name: 1 }, 5, 0, null, null, null, 1);
         if (!this.$scope.$$phase) { this.$scope.$apply(); }
     }
     fillTextbox(searchtext) {
@@ -516,7 +516,7 @@ export class EntitiesCtrl extends entitiesCtrl<Base> {
     async DeleteOne(model: any): Promise<any> {
         this.loading = true;
         try {
-            await NoderedUtil.DeleteOne(this.collection, model._id, null);
+            await NoderedUtil.DeleteOne(this.collection, model._id, null, 1);
             this.models = this.models.filter(function (m: any): boolean { return m._id !== model._id; });
         } catch (error) {
             this.errormessage = error;
@@ -558,7 +558,7 @@ export class HistoryCtrl extends entitiesCtrl<Base> {
                 delete this.model[key];
             }
         });
-        this.models = await NoderedUtil.Query(this.collection + "_hist", { id: this.id }, { name: 1, _createdby: 1, _modified: 1, _version: 1 }, this.orderby, 100, 0, null);
+        this.models = await NoderedUtil.Query(this.collection + "_hist", { id: this.id }, { name: 1, _createdby: 1, _modified: 1, _version: 1 }, this.orderby, 100, 0, null, null, null, 1);
         if (!this.$scope.$$phase) { this.$scope.$apply(); }
     }
     async CompareNow(model) {
@@ -566,7 +566,7 @@ export class HistoryCtrl extends entitiesCtrl<Base> {
         modal.modal()
         // var delta = jsondiffpatch.diff(this.model, model.item);
         if (model.item == null) {
-            var items = await NoderedUtil.Query(this.collection + "_hist", { _id: model._id }, null, this.orderby, 100, 0, null);
+            var items = await NoderedUtil.Query(this.collection + "_hist", { _id: model._id }, null, this.orderby, 100, 0, null, null, null, 1);
             if (items.length > 0) {
                 model.item = items[0].item;
                 model.delta = items[0].delta;
@@ -584,7 +584,7 @@ export class HistoryCtrl extends entitiesCtrl<Base> {
     }
     async CompareThen(model) {
         if (model.item == null || model.delta == null) {
-            var items = await NoderedUtil.Query(this.collection + "_hist", { _id: model._id }, null, this.orderby, 100, 0, null);
+            var items = await NoderedUtil.Query(this.collection + "_hist", { _id: model._id }, null, this.orderby, 100, 0, null, null, null, 1);
             if (items.length > 0) {
                 model.item = items[0].item;
                 model.delta = items[0].delta;
@@ -596,7 +596,7 @@ export class HistoryCtrl extends entitiesCtrl<Base> {
     }
     async RevertTo(model) {
         if (model.item == null) {
-            var items = await NoderedUtil.Query(this.collection + "_hist", { _id: model._id }, null, this.orderby, 100, 0, null);
+            var items = await NoderedUtil.Query(this.collection + "_hist", { _id: model._id }, null, this.orderby, 100, 0, null, null, null, 1);
             if (items.length > 0) {
                 model.item = items[0].item;
                 model.delta = items[0].delta;
@@ -606,7 +606,7 @@ export class HistoryCtrl extends entitiesCtrl<Base> {
         if (result) {
             jsondiffpatch.patch(model.item, model.delta);
             model.item._id = this.id;
-            await NoderedUtil.UpdateOne(this.collection, null, model.item, 1, false, null);
+            await NoderedUtil.UpdateOne(this.collection, null, model.item, 1, false, null, 1);
             this.loadData();
         }
     }
